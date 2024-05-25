@@ -43,7 +43,7 @@ func worker(x, y []float64, sem chan struct{}, ch chan partialSums) {
 }
 
 func leerDatos() {
-	url := "https://raw.githubusercontent.com/usuario/repositorio/rama/Updated_Expanded_Salary_Data.csv"
+	url := "https://raw.githubusercontent.com/mache12V2/TP_Concurrente/main/TA3/Datasets/Updated_Expanded_Salary_Data.csv"
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatalf("Error al realizar la solicitud HTTP: %v", err)
