@@ -4,6 +4,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"sort"
 	"strconv"
@@ -95,9 +96,12 @@ func generarDataCSV(empleados []Empleado) ([]float64, []float64) {
 	n := len(empleados)
 	X := make([]float64, n)
 	Y := make([]float64, n)
+	rand.Seed(time.Now().UnixNano())
+
 	for i, empleado := range empleados {
-		X[i] = empleado.salary
-		Y[i] = float64(empleado.age)
+		k := 3 + rand.Float64()*(2)
+		X[i] = empleado.salary + k
+		Y[i] = float64(empleado.age) + k
 	}
 	return X, Y
 }
