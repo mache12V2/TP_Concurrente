@@ -1,6 +1,3 @@
-Enlace a video de expo:
-https://youtu.be/Xent65ldi7s
-
 TA4 :
 
 Objetivos 
@@ -28,9 +25,15 @@ Estrategias para Equidad Salarial
     Identificar y abordar las disparidades salariales basadas en el género. Realizar un análisis detallado para detectar brechas salariales entre empleados hombres y mujeres en roles similares. Implementar medidas correctivas, como ajustes salariales y            programas de desarrollo profesional, para asegurar que las mujeres reciban una compensación equitativa por su trabajo y contribución a la organización.
 
 Resultados: </br>
-![alt text](TA4/servidor.jpg)
-![alt text](TA4/cliente.jpg)
-![alt text](TA4/servidor2.jpg)
-![alt text](TA4/cliente2.jpg)
-![alt text](TA4/servidor3.jpg)
-![alt text](TA4/cliente3.jpg)
+Simulación 1 </br>
+![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/servidor.jpg)
+![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/cliente.jpg)
+Simulación 2 </br>
+![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/servidor%202.jpg)
+![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/cliente%202.jpg)
+Simulación 3 </br>
+![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/servidor%203.jpg)
+![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/cliente%203.jpg)
+
+Enlace a video de expo: </br>
+https://youtu.be/Xent65ldi7s
