@@ -27,10 +27,10 @@ Estrategias para Equidad Salarial
 Resultados: </br>
 Simulación 1 </br>
 ![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/servidor.jpg)
-![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/cliente.jpg)
+![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/cliente.jpg)</br>
 Simulación 2 </br>
 ![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/servidor%202.jpg)
-![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/cliente%202.jpg)
+![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/cliente%202.jpg)</br>
 Simulación 3 </br>
 ![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/servidor%203.jpg)
 ![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/cliente%203.jpg)
