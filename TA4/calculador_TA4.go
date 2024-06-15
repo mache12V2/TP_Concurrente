@@ -9,6 +9,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -34,7 +35,7 @@ var (
 
 func worker(x, y []float64, sem chan struct{}, ch chan partialSums) {
 	defer func() {
-		<-sem // Release the semaphore upon completion
+		<-sem
 	}()
 	var pSums partialSums
 	for i := range x {
@@ -60,6 +61,7 @@ func leerDatos() {
 	}
 
 	reader := csv.NewReader(resp.Body)
+
 	_, err = reader.Read()
 	if err != nil {
 		fmt.Println("Error al leer la primera fila:", err)
@@ -99,14 +101,83 @@ func generarDataCSV(empleados []Empleado) ([]float64, []float64) {
 	rand.Seed(time.Now().UnixNano())
 
 	for i, empleado := range empleados {
-		k := 3 + rand.Float64()*(2)
+		k := 3 + rand.Float64()*2
 		X[i] = empleado.salary + k
 		Y[i] = float64(empleado.age) + k
 	}
 	return X, Y
 }
 
-func calculate(x, y []float64, workers int) (float64, float64) {
+func calculate(x, y []float64, workers int) time.Duration {
+	start := time.Now()
+	size := len(x) / workers
+	sem := make(chan struct{}, workers)
+	ch := make(chan partialSums, workers)
+
+	for i := 0; i < workers; i++ {
+		startIdx := i * size
+		endIdx := startIdx + size
+		if i == workers-1 {
+			endIdx = len(x)
+		}
+		sem <- struct{}{}
+		go worker(x[startIdx:endIdx], y[startIdx:endIdx], sem, ch)
+	}
+
+	total := partialSums{}
+	for i := 0; i < workers; i++ {
+		p := <-ch
+		total.sumX += p.sumX
+		total.sumY += p.sumY
+		total.sumXY += p.sumXY
+		total.sumXX += p.sumXX
+	}
+	close(ch)
+
+	N := float64(len(x))
+	m := (N*total.sumXY - total.sumX*total.sumY) / (N*total.sumXX - total.sumX*total.sumX)
+	b := (total.sumY - m*total.sumX) / N
+
+	fmt.Printf("m = %v, b = %v\n", m, b)
+	return time.Since(start)
+}
+
+func calcularMediaRecortada(durations []time.Duration) time.Duration {
+	sort.Slice(durations, func(i, j int) bool {
+		return durations[i] < durations[j]
+	})
+	durations = durations[50 : len(durations)-50]
+
+	var total time.Duration
+	for _, duration := range durations {
+		total += duration
+	}
+
+	average := total / time.Duration(len(durations))
+	return average
+}
+
+func startCalc(runs int) (float64, float64, time.Duration) {
+	const workers = 4
+
+	leerDatos()
+	x, y := generarDataCSV(empleados)
+
+	durations := make([]time.Duration, runs)
+	var totalDuration time.Duration
+
+	for i := 0; i < runs; i++ {
+		durations[i] = calculate(x, y, workers)
+		totalDuration += durations[i]
+	}
+
+	trimmedMean := calcularMediaRecortada(durations)
+	finalM, finalB := finalCalc(x, y, workers)
+
+	return finalM, finalB, trimmedMean
+}
+
+func finalCalc(x, y []float64, workers int) (float64, float64) {
 	size := len(x) / workers
 	sem := make(chan struct{}, workers)
 	ch := make(chan partialSums, workers)
@@ -138,16 +209,6 @@ func calculate(x, y []float64, workers int) (float64, float64) {
 	return m, b
 }
 
-func startCalc() (float64, float64) {
-	const workers = 4
-
-	leerDatos()
-	x, y := generarDataCSV(empleados)
-	m, b := calculate(x, y, workers)
-
-	return m, b
-}
-
 func manejador(con net.Conn) {
 	defer con.Close()
 	br := bufio.NewReader(con)
@@ -155,23 +216,24 @@ func manejador(con net.Conn) {
 	for {
 		datos, err := br.ReadString('\n')
 		if err != nil {
-			fmt.Println("Error reading data:", err)
+			fmt.Println("Error leyendo data:", err)
 			return
 		}
 		datos = strings.TrimSpace(datos)
-		fmt.Println("Received:", datos)
+		fmt.Println("Recibido:", datos)
 
-		if datos == "calculate" {
-			m, b := startCalc()
-			fmt.Fprintf(con, "m = %v, b = %v\n", m, b)
+		if datos == "promedio" {
+			const runs = 1000
+			m, b, trimmedMean := startCalc(runs)
+			fmt.Fprintf(con, "m = %v, b = %v, Media recortada de tiempo de ejecución: %v\n", m, b, trimmedMean)
 		} else {
-			fmt.Fprintln(con, "Unknown command")
+			fmt.Fprintln(con, "Comando desconocido")
 		}
 	}
 }
 
 func main() {
-	ls, err := net.Listen("tcp", "clienteIP:8000")
+	ls, err := net.Listen("tcp", "UserIP:8000")
 	if err != nil {
 		fmt.Println("Fallo en la comunicación ", err.Error())
 		os.Exit(1)
@@ -179,9 +241,9 @@ func main() {
 	defer ls.Close()
 
 	for {
-		con, erro := ls.Accept()
-		if erro != nil {
-			fmt.Println("Fallo en la conexión ", erro.Error())
+		con, err := ls.Accept()
+		if err != nil {
+			fmt.Println("Fallo en la conexión ", err.Error())
 		}
 		go manejador(con)
 	}

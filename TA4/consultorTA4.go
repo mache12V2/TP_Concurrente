@@ -8,19 +8,27 @@ import (
 )
 
 func main() {
-	con, _ := net.Dial("tcp", "calculadorIP:8000")
+	con, err := net.Dial("tcp", "UserIP:8000")
+	if err != nil {
+		fmt.Println("Error al conectar al servidor:", err)
+		return
+	}
+	defer con.Close()
 
-	br := bufio.NewReader(con)
-	br2 := bufio.NewReader(os.Stdin)
+	br := bufio.NewReader(os.Stdin)
 
 	for {
-		fmt.Print("Ingrese su solicitud de promedio: ")
-		msg, _ := br2.ReadString('\n')
+		fmt.Print("Ingrese accion a realizar\nPosibles inputs - 'promedio': ")
+		msg, _ := br.ReadString('\n')
 
 		fmt.Fprint(con, msg)
 
-		resp, _ := br.ReadString('\n')
-		fmt.Println("Respuesta: ", resp)
+		resp, err := bufio.NewReader(con).ReadString('\n')
+		if err != nil {
+			fmt.Println("Error al recibir respuesta:", err)
+			return
+		}
 
+		fmt.Println(resp)
 	}
 }
