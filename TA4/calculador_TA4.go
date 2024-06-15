@@ -233,7 +233,12 @@ func manejador(con net.Conn) {
 }
 
 func main() {
-	ls, err := net.Listen("tcp", "UserIP:8000")
+	userIP := bufio.NewReader(os.Stdin)
+	fmt.Print("Ingese el ip del cliente: ")
+	dir, _ := userIP.ReadString('\n')
+	dir = strings.TrimSpace(dir)
+
+	ls, err := net.Listen("tcp", dir+":8000")
 	if err != nil {
 		fmt.Println("Fallo en la comunicación ", err.Error())
 		os.Exit(1)

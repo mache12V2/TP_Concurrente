@@ -5,10 +5,16 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"strings"
 )
 
 func main() {
-	con, err := net.Dial("tcp", "UserIP:8000")
+	userIP := bufio.NewReader(os.Stdin)
+	fmt.Print("Ingese el ip del servidor: ")
+	dir, _ := userIP.ReadString('\n')
+	dir = strings.TrimSpace(dir)
+
+	con, err := net.Dial("tcp", dir + ":8000")
 	if err != nil {
 		fmt.Println("Error al conectar al servidor:", err)
 		return
