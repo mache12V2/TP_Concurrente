@@ -27,5 +27,10 @@ Estrategias para Equidad Salarial
   Diferencias Salariales por Género:
     Identificar y abordar las disparidades salariales basadas en el género. Realizar un análisis detallado para detectar brechas salariales entre empleados hombres y mujeres en roles similares. Implementar medidas correctivas, como ajustes salariales y            programas de desarrollo profesional, para asegurar que las mujeres reciban una compensación equitativa por su trabajo y contribución a la organización.
 
-Resultados:
+Resultados: </br>
 ![alt text](TA4/servidor.jpg)
+![alt text](TA4/cliente.jpg)
+![alt text](TA4/servidor2.jpg)
+![alt text](TA4/cliente2.jpg)
+![alt text](TA4/servidor3.jpg)
+![alt text](TA4/cliente3.jpg)
