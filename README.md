@@ -1,39 +1,27 @@
-## TA4 :
+# ApiTfApp
 
-*Objetivos* 
-Redactar claramente el problema social, sus características y conclusiones de cómo este trabajo da la solución:
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.5.
 
-*Problema Social:* Las diferencias salariales entre empleados dentro de una organización pueden generar problemas de inequidad, insatisfacción laboral y falta de motivación. Comprender estas disparidades es esencial para promover un entorno laboral justo y equitativo.
+## Development server
 
-*Características:*
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-  Evaluar los salarios según diferentes departamentos y posiciones.
-  Analizar las diferencias salariales basadas en género, antigüedad y otros factores relevantes.
-  Identificar patrones y anomalías en la estructura salarial de la organización.
+## Code scaffolding
 
-*Estrategias para Equidad Salarial*
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-  Implementación de Evaluaciones Salariales Regulares:
-    Realizar evaluaciones periódicas de los salarios para revisar y ajustar las compensaciones de los empleados según su desempeño, responsabilidades y contribuciones a la empresa. Estas evaluaciones deben considerar factores como antigüedad, educación,           habilidades y experiencia, asegurando que los ajustes salariales se realicen de manera justa y transparente.
-    Recomendación para la Implementación de Políticas de Compensación
+## Build
 
-  Política de Transparencia Salarial:
-    Establecer una política de transparencia salarial donde los rangos salariales para cada puesto sean públicos y accesibles para todos los empleados. Esto incluye la publicación de las estructuras salariales y los criterios utilizados para determinar los        salarios y aumentos, fomentando un entorno de confianza y equidad.
-    Identificación de Áreas de Intervención
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-  Diferencias Salariales por Género:
-    Identificar y abordar las disparidades salariales basadas en el género. Realizar un análisis detallado para detectar brechas salariales entre empleados hombres y mujeres en roles similares. Implementar medidas correctivas, como ajustes salariales y            programas de desarrollo profesional, para asegurar que las mujeres reciban una compensación equitativa por su trabajo y contribución a la organización.
+## Running unit tests
 
-*Resultados:* </br>
-Simulación 1 </br>
-![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/servidor.jpg)
-![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/cliente.jpg)</br>
-Simulación 2 </br>
-![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/servidor%202.jpg)
-![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/cliente%202.jpg)</br>
-Simulación 3 </br>
-![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/servidor%203.jpg)
-![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/cliente%203.jpg)
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-Enlace a video de expo: </br>
-https://youtu.be/ayPaCSzkesw
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

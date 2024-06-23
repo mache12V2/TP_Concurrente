@@ -1,0 +1,16 @@
+<div class="container">
+  <h1>Procesamiento Distribuido</h1>
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="inputData">Datos de Entrada</label>
+      <input type="text" class="form-control" id="inputData" [(ngModel)]="inputData.data" name="data" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Procesar</button>
+  </form>
+
+  <div *ngIf="results">
+    <h2>Resultados</h2>
+    <pre>{{ results | json }}</pre>
+  </div>
+</div>
+
