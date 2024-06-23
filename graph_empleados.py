@@ -14,3 +14,10 @@ plt.ylabel('b')
 plt.grid(True)
 plt.legend()
 plt.show()
+
+# Guarda el gráfico en un archivo temporal y muestra su nombre
+temp_file = 'temp_image.png'
+plt.savefig(temp_file)
+
+# Imprime el nombre del archivo para que Go lo lea como respuesta
+print(temp_file)
