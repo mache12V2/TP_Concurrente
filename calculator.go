@@ -28,7 +28,6 @@ type partialSums struct {
 	sumXY float64
 	sumXX float64
 }
-
 type Point struct {
 	mval float64
 	bval float64
@@ -138,6 +137,28 @@ func leerDatos() {
 	}
 	for key, total := range avgSalaryByAgeRange {
 		avgSalaryByAgeRange[key] = total / float64(countByAgeRange[key])
+	}
+}
+func writeCSV(puntos []Point) {
+	file, err := os.Create("points_Empleados.csv")
+	if err != nil {
+		log.Fatal("Error creating file:", err)
+	}
+	defer file.Close()
+
+	writer := csv.NewWriter(file)
+	defer writer.Flush()
+
+	headers := []string{"m", "b"}
+	if err := writer.Write(headers); err != nil {
+		log.Fatal("Error writing headers:", err)
+	}
+
+	for i := 0; i < len(puntos); i++ {
+		record := []string{strconv.FormatFloat(puntos[i].mval, 'f', -1, 64), strconv.FormatFloat(puntos[i].bval, 'f', -1, 64)}
+		if err := writer.Write(record); err != nil {
+			log.Fatal("Error writing record to CSV:", err)
+		}
 	}
 }
 
@@ -285,67 +306,6 @@ func finalCalc(X [][]float64, Y []float64, workers int) (float64, float64) {
 	return m, b
 }
 
-func writeCSV(puntos []Point) {
-	file, err := os.Create("points_Empleados.csv")
-	if err != nil {
-		log.Fatal("Error creating file:", err)
-	}
-	defer file.Close()
-
-	writer := csv.NewWriter(file)
-	defer writer.Flush()
-
-	headers := []string{"m", "b"}
-	if err := writer.Write(headers); err != nil {
-		log.Fatal("Error writing headers:", err)
-	}
-
-	for i := 0; i < len(puntos); i++ {
-		record := []string{strconv.FormatFloat(puntos[i].mval, 'f', -1, 64), strconv.FormatFloat(puntos[i].bval, 'f', -1, 64)}
-		if err := writer.Write(record); err != nil {
-			log.Fatal("Error writing record to CSV:", err)
-		}
-	}
-}
-
-// Predicción de salario según el input del usuario y promedios de la base de datos
-func predictSalary(con net.Conn) {
-	reader := bufio.NewReader(con)
-
-	genderStr, _ := reader.ReadString('\n')
-	genderStr = strings.TrimSpace(genderStr)
-	gender, err := strconv.ParseInt(genderStr, 10, 64)
-	if err != nil {
-		fmt.Fprintln(con, "Error al leer el género")
-		return
-	}
-
-	ageStr, _ := reader.ReadString('\n')
-	ageStr = strings.TrimSpace(ageStr)
-	age, err := strconv.ParseInt(ageStr, 10, 64)
-	if err != nil {
-		fmt.Fprintln(con, "Error al leer la edad")
-		return
-	}
-
-	PhDStr, _ := reader.ReadString('\n')
-	PhDStr = strings.TrimSpace(PhDStr)
-	PhD, err := strconv.ParseInt(PhDStr, 10, 64)
-	if err != nil {
-		fmt.Fprintln(con, "Error al leer el PhD")
-		return
-	}
-
-	ageRange := getAgeRange(age)
-	averageSalary := totalSalary / float64(totalCount)
-	averageSalaryPhD := avgSalaryByPhD[PhD]
-	averageSalaryGender := avgSalaryByGender[gender]
-	averageSalaryAgeRange := avgSalaryByAgeRange[ageRange]
-
-	predictedSalary := (averageSalary + averageSalaryPhD + averageSalaryGender + averageSalaryAgeRange) / 4
-	fmt.Fprintf(con, "El salario predicho es: %.2f\n", predictedSalary)
-}
-
 func manejador(con net.Conn) {
 	defer con.Close()
 	br := bufio.NewReader(con)
@@ -364,8 +324,6 @@ func manejador(con net.Conn) {
 			m, b, trimmedMean := startCalc(runs)
 			fmt.Fprintf(con, "m = %v, b = %v, Media recortada de tiempo de ejecución: %v\n", m, b, trimmedMean)
 			writeCSV(puntos)
-		} else if datos == "predecir" {
-			predictSalary(con)
 		} else {
 			fmt.Fprintln(con, "Comando desconocido")
 		}
@@ -374,7 +332,7 @@ func manejador(con net.Conn) {
 
 func main() {
 	userIP := bufio.NewReader(os.Stdin)
-	fmt.Print("Ingese el ip del cliente: ")
+	fmt.Print("Ingrese el ip del cliente: ")
 	dir, _ := userIP.ReadString('\n')
 	dir = strings.TrimSpace(dir)
 
