@@ -36,4 +36,4 @@ Simulación 3 </br>
 ![alt text](https://github.com/mache12V2/TP_Concurrente/blob/main/TA4/cliente%203.jpg)
 
 Enlace a video de expo: </br>
-https://youtu.be/ayPaCSzkesw
+https://www.youtube.com/watch?v=r-QnVurEVpU
